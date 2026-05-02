@@ -1,6 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import healthRouter from './routes/health.router.js';
+import sessionsRouter from './routes/sessions.router.js';
 
 const app = express();
 
@@ -9,6 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/api/health', healthRouter);
+app.use('/api/sessions', sessionsRouter);
 
 app.use((req, res) => {
   res.status(404).json({
