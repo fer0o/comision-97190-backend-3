@@ -22,14 +22,15 @@ class SessionService {
     async register (userData){
         // Validacion de campos obligatorios
         const {first_name, last_name, email, password} = userData;
+        const normalizedEmail = email?.trim().toLowerCase();
         // Si faltan campos obligatorios, lanza error 400
-        if(!first_name || !last_name || !email || !password) {
+        if(!first_name || !last_name || !normalizedEmail || !password) {
             const error = new Error ('Incomplete values');
             error.statusCode = 400;
             throw error;
         }
         // Valida si el email ya existe
-        const existingUser = await userService.getUserByEmail(email);
+        const existingUser = await userService.getUserByEmail(normalizedEmail);
         // Si el email ya existe, lanza error 400
         if(existingUser){
             const error = new Error ('User already exists');
@@ -41,8 +42,9 @@ class SessionService {
         // Crea el usuario con el hash de la contraseña
         const user = await userService.createUser({
             ...userData,
+            email: normalizedEmail,
             password: hashedPassword,
-            role: userData.role || 'user',
+            role: 'user',
         });
         return this.sanitizeUser(user);
     }
@@ -50,14 +52,15 @@ class SessionService {
     // Loguea un usuario existente
     async login (credentials) {
         const {email, password} = credentials;
+        const normalizedEmail = email?.trim().toLowerCase();
         // Validacion de campos obligatorios
-        if (!email || !password) {
+        if (!normalizedEmail || !password) {
             const error = new Error('Incomplete credentials Email and password are required');
             error.statusCode = 400;
             throw error;
         }
         // Busca el usuario por email
-        const user = await userService.getUserByEmail(email);
+        const user = await userService.getUserByEmail(normalizedEmail);
         // Si no existe el usuario, lanza error 401
         if(!user) {
             const error = new Error('Invalid credentials');

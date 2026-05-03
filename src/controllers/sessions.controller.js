@@ -2,10 +2,13 @@ import sessionService from '../services/session.service.js';
 
 const handleSessionError = (error, res) => {
     const statusCode = error.statusCode || 500;
+    const message = statusCode === 500
+        ? 'Internal server error'
+        : error.message;
 
     res.status(statusCode).json({
         status: 'error',
-        message: error.message || 'Internal server error',
+        message,
     })
 };
 
