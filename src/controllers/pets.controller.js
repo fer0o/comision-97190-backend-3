@@ -15,6 +15,12 @@ const isValidPetId = (pid) => mongoose.isValidObjectId(pid);
 
 const isValidDate = (date) => !Number.isNaN(new Date(date).getTime());
 
+const hasInvalidOwner = (owner) => (
+  owner !== undefined
+  && owner !== null
+  && !mongoose.isValidObjectId(owner)
+);
+
 // Get all pets - obtiene todos los mascotas
 
 export const getAllPets = async (req, res) => {
@@ -78,6 +84,13 @@ export const createPet = async (req, res) => {
       });
     }
 
+    if (hasInvalidOwner(req.body.owner)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid owner id",
+      });
+    }
+
     const pet = await petService.createPet(req.body);
 
     res.status(201).json({
@@ -105,6 +118,13 @@ export const updatePet = async (req, res) => {
       return res.status(400).json({
         status: "error",
         message: "Invalid birthDate",
+      });
+    }
+
+    if (hasInvalidOwner(req.body.owner)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid owner id",
       });
     }
 
