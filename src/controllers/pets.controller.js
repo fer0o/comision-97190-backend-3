@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import petService from "../services/pet.service.js";
 
 const handlePetError = (error, res) => {
@@ -9,6 +10,10 @@ const handlePetError = (error, res) => {
     message,
   });
 };
+
+const isValidPetId = (pid) => mongoose.isValidObjectId(pid);
+
+const isValidDate = (date) => !Number.isNaN(new Date(date).getTime());
 
 // Get all pets - obtiene todos los mascotas
 
@@ -28,6 +33,14 @@ export const getAllPets = async (req, res) => {
 export const getPet = async (req, res) => {
   try {
     const { pid } = req.params;
+
+    if (!isValidPetId(pid)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid pet id",
+      });
+    }
+
     const pet = await petService.getPetById(pid);
 
     if (!pet) {
@@ -57,6 +70,14 @@ export const createPet = async (req, res) => {
         message: "Incomplete values",
       });
     }
+
+    if (!isValidDate(birthDate)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid birthDate",
+      });
+    }
+
     const pet = await petService.createPet(req.body);
 
     res.status(201).json({
@@ -72,6 +93,21 @@ export const createPet = async (req, res) => {
 export const updatePet = async (req, res) => {
   try {
     const { pid } = req.params;
+
+    if (!isValidPetId(pid)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid pet id",
+      });
+    }
+
+    if (req.body.birthDate && !isValidDate(req.body.birthDate)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid birthDate",
+      });
+    }
+
     const pet = await petService.updatePet(pid, req.body);
 
     if (!pet) {
@@ -93,6 +129,14 @@ export const updatePet = async (req, res) => {
 export const deletePet = async (req, res) => {
   try {
     const { pid } = req.params;
+
+    if (!isValidPetId(pid)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid pet id",
+      });
+    }
+
     const pet = await petService.deletePet(pid);
 
     if (!pet) {
