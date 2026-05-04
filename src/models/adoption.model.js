@@ -26,6 +26,15 @@ const adoptionSchema = new mongoose.Schema(
     },
 );
 
+adoptionSchema.index(
+    { pet: 1 },
+    {
+        unique: true,
+        partialFilterExpression: { status: 'active' },
+        name: 'unique_active_adoption_by_pet',
+    },
+);
+
 const adoptionModel = mongoose.model(collection, adoptionSchema);
 
 export default adoptionModel;
