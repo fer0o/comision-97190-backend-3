@@ -2,6 +2,10 @@ import userService from './user.service.js';
 import { createHash, isValidPassword } from '../utils/hash.js';
 import { generateToken, verifyToken } from '../utils/jwt.js';
 
+const isDuplicatedEmailError = (error) => {
+  return error?.code === 11000 && (error?.keyPattern?.email || error?.keyValue?.email);
+};
+
 class SessionService {
   sanitizeUser(user) {
     if (!user) return null;
@@ -39,13 +43,26 @@ class SessionService {
         }
         // Crea el hash de la contraseña
         const hashedPassword = await createHash(password);
-        // Crea el usuario con el hash de la contraseña
-        const user = await userService.createUser({
-            ...userData,
-            email: normalizedEmail,
-            password: hashedPassword,
-            role: 'user',
-        });
+        let user;
+
+        try {
+            // Crea el usuario con el hash de la contraseña
+            user = await userService.createUser({
+                ...userData,
+                email: normalizedEmail,
+                password: hashedPassword,
+                role: 'user',
+            });
+        } catch (error) {
+            if (isDuplicatedEmailError(error)) {
+                const duplicatedError = new Error('User already exists');
+                duplicatedError.statusCode = 400;
+                throw duplicatedError;
+            }
+
+            throw error;
+        }
+
         return this.sanitizeUser(user);
     }
 
