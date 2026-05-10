@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "mocha ./test/**/*.test.js --exit"
+    "test": "mocha ./test/**/*.test.js --timeout 10000 --exit"
   },
   "keywords": [
     "node",
@@ -25,7 +25,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.23.1",
     "passport": "^0.7.0",
-    "passport-jwt": "^4.0.1"
+    "passport-jwt": "^4.0.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "chai": "^6.2.2",

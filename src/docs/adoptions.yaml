@@ -1,0 +1,158 @@
+paths:
+  /api/adoptions:
+    get:
+      summary: Obtiene la lista de adopciones
+      tags:
+        - Adoptions
+      responses:
+        "200":
+          description: Lista de adopciones obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: 69f7dbfd1ff93c6cfe3c0dd6
+                        owner:
+                          type: string
+                          example: 69f58f9327ba384b5ea21190
+                        pet:
+                          type: string
+                          example: 69f6f012a6e96878e8faa97c
+                        status:
+                          type: string
+                          example: active
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: "2026-05-03T23:36:29.374Z"
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          example: "2026-05-03T23:36:29.374Z"
+        "500":
+          description: Error interno del servidor
+
+  /api/adoptions/{aid}:
+    get:
+      summary: Obtiene una adopcion por id
+      tags:
+        - Adoptions
+      parameters:
+        - name: aid
+          in: path
+          required: true
+          description: Id de la adopcion
+          schema:
+            type: string
+          example: 69f7dbfd1ff93c6cfe3c0dd6
+      responses:
+        "200":
+          description: Adopcion obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 69f7dbfd1ff93c6cfe3c0dd6
+                      owner:
+                        type: string
+                        example: 69f58f9327ba384b5ea21190
+                      pet:
+                        type: string
+                        example: 69f6f012a6e96878e8faa97c
+                      status:
+                        type: string
+                        example: active
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: "2026-05-03T23:36:29.374Z"
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: "2026-05-03T23:36:29.374Z"
+        "400":
+          description: Id de adopcion invalido
+        "404":
+          description: Adopcion no encontrada
+        "500":
+          description: Error interno del servidor
+  /api/adoptions/{uid}/{pid}:
+    post:
+      summary: Crea una adopcion entre un usuario y una mascota
+      tags:
+        - Adoptions
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Id del usuario que adopta
+          schema:
+            type: string
+          example: 69f58f9327ba384b5ea21190
+        - name: pid
+          in: path
+          required: true
+          description: Id de la mascota a adoptar
+          schema:
+            type: string
+          example: 69f6f012a6e96878e8faa97c
+      responses:
+        "201":
+          description: Adopcion creada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 69f7dbfd1ff93c6cfe3c0dd6
+                      owner:
+                        type: string
+                        example: 69f58f9327ba384b5ea21190
+                      pet:
+                        type: string
+                        example: 69f6f012a6e96878e8faa97c
+                      status:
+                        type: string
+                        example: active
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: "2026-05-03T23:36:29.374Z"
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: "2026-05-03T23:36:29.374Z"
+        "400":
+          description: Id invalido o mascota ya adoptada
+        "404":
+          description: Usuario o mascota no encontrada
+        "500":
+          description: Error interno del servidor

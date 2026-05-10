@@ -4,6 +4,8 @@ import healthRouter from "./routes/health.router.js";
 import sessionsRouter from "./routes/sessions.router.js";
 import petsRouter from "./routes/pets.router.js";
 import adoptionsRouter from "./routes/adoptions.router.js";
+import { swaggerSpecs } from "./config/swagger.js";
+import swaggerUi from "swagger-ui-express";
 
 const app = express();
 
@@ -15,6 +17,7 @@ app.use("/api/health", healthRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/pets", petsRouter);
 app.use("/api/adoptions", adoptionsRouter);
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 app.use((req, res) => {
   res.status(404).json({

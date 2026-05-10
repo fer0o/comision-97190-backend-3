@@ -1,0 +1,330 @@
+paths:
+  /api/pets:
+    get:
+      summary: Obtiene la lista de mascotas
+      tags:
+        - Pets
+      responses:
+        "200":
+          description: Lista de mascotas obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: 69f6f012a6e96878e8faa97c
+                        name:
+                          type: string
+                          example: Michi
+                        specie:
+                          type: string
+                          example: cat
+                        birthDate:
+                          type: string
+                          format: date-time
+                          example: "2023-03-15T00:00:00.000Z"
+                        adopted:
+                          type: boolean
+                          example: false
+                        owner:
+                          type: string
+                          nullable: true
+                          example: null
+                        image:
+                          type: string
+                          example: https://example.com/michi.jpg
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: "2026-05-03T06:49:54.800Z"
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          example: "2026-05-03T06:49:54.800Z"
+        "500":
+          description: Error interno del servidor
+    post:
+      summary: Crea una nueva mascota
+      tags:
+        - Pets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - specie
+                - birthDate
+              properties:
+                name:
+                  type: string
+                  example: Firulais
+                specie:
+                  type: string
+                  example: dog
+                birthDate:
+                  type: string
+                  format: date
+                  example: "2022-05-10"
+                image:
+                  type: string
+                  example: https://example.com/firulais.jpg
+      responses:
+        "201":
+          description: Mascota creada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 69f6ee1da6e96878e8faa975
+                      name:
+                        type: string
+                        example: Firulais
+                      specie:
+                        type: string
+                        example: dog
+                      birthDate:
+                        type: string
+                        format: date-time
+                        example: "2022-05-10T00:00:00.000Z"
+                      adopted:
+                        type: boolean
+                        example: false
+                      owner:
+                        type: string
+                        nullable: true
+                        example: null
+                      image:
+                        type: string
+                        example: https://example.com/firulais.jpg
+        "400":
+          description: Datos incompletos o invalidos
+        "500":
+          description: Error interno del servidor
+
+  /api/pets/{pid}:
+    get:
+      summary: Obtiene una mascota por id
+      tags:
+        - Pets
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id de la mascota
+          schema:
+            type: string
+          example: 69f6f012a6e96878e8faa97c
+      responses:
+        "200":
+          description: Mascota obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 69f6f012a6e96878e8faa97c
+                      name:
+                        type: string
+                        example: Michi
+                      specie:
+                        type: string
+                        example: cat
+                      birthDate:
+                        type: string
+                        format: date-time
+                        example: "2023-03-15T00:00:00.000Z"
+                      adopted:
+                        type: boolean
+                        example: false
+                      owner:
+                        type: string
+                        nullable: true
+                        example: null
+                      image:
+                        type: string
+                        example: https://example.com/michi.jpg
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: "2026-05-03T06:49:54.800Z"
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: "2026-05-03T06:49:54.800Z"
+        "400":
+          description: Id de mascota invalido
+        "404":
+          description: Mascota no encontrada
+        "500":
+          description: Error interno del servidor
+    put:
+      summary: Actualiza una mascota por id
+      tags:
+        - Pets
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id de la mascota
+          schema:
+            type: string
+          example: 69f6f012a6e96878e8faa97c
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Firulais Updated
+                specie:
+                  type: string
+                  example: dog
+                birthDate:
+                  type: string
+                  format: date
+                  example: "2022-05-10"
+                adopted:
+                  type: boolean
+                  example: false
+                owner:
+                  type: string
+                  nullable: true
+                  example: null
+                image:
+                  type: string
+                  example: https://example.com/firulais-updated.jpg
+      responses:
+        "200":
+          description: Mascota actualizada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 69f6f012a6e96878e8faa97c
+                      name:
+                        type: string
+                        example: Firulais Updated
+                      specie:
+                        type: string
+                        example: dog
+                      birthDate:
+                        type: string
+                        format: date-time
+                        example: "2022-05-10T00:00:00.000Z"
+                      adopted:
+                        type: boolean
+                        example: false
+                      owner:
+                        type: string
+                        nullable: true
+                        example: null
+                      image:
+                        type: string
+                        example: https://example.com/firulais-updated.jpg
+        "400":
+          description: Id de mascota invalido o datos invalidos
+        "404":
+          description: Mascota no encontrada
+        "500":
+          description: Error interno del servidor
+    delete:
+      summary: Elimina una mascota por id
+      tags:
+        - Pets
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id de la mascota
+          schema:
+            type: string
+          example: 69f6f012a6e96878e8faa97c
+      responses:
+        "200":
+          description: Mascota eliminada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Pet Firulais deleted successfully
+                  payload:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 69f6f012a6e96878e8faa97c
+                      name:
+                        type: string
+                        example: Firulais
+                      specie:
+                        type: string
+                        example: dog
+                      birthDate:
+                        type: string
+                        format: date-time
+                        example: "2022-05-10T00:00:00.000Z"
+                      adopted:
+                        type: boolean
+                        example: false
+                      owner:
+                        type: string
+                        nullable: true
+                        example: null
+                      image:
+                        type: string
+                        example: https://example.com/firulais.jpg
+        "400":
+          description: Id de mascota invalido
+        "404":
+          description: Mascota no encontrada
+        "500":
+          description: Error interno del servidor
+

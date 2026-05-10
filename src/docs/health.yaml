@@ -1,0 +1,30 @@
+paths:
+  /api/health:
+    get:
+      summary: Health check de la API
+      tags:
+        - Health
+      responses:
+        "200":
+          description: Estado actual del servicio
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: object
+                    properties:
+                      service:
+                        type: string
+                        example: AdoptMe API
+                      uptime:
+                        type: number
+                        example: 120.5
+                      timestamp:
+                        type: string
+                        format: date-time
+                        example: "2026-05-06T07:19:34.550Z"
