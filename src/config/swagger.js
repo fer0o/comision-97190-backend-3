@@ -10,6 +10,10 @@ const options = {
         },
         servers: [
             {
+                url: "/",
+                description: "Current server",
+            },
+            {
                 url: "http://localhost:8080",
                 description: "Local server",
             },
