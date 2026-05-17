@@ -346,7 +346,7 @@ Implementado:
 - Imagen DockerHub.
 - Swagger/OpenAPI.
 
-Pendiente o extensiones posibles:
+Extensiones futuras posibles:
 
 - Pagos simulados.
 - CI/CD.
