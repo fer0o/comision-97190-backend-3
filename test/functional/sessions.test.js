@@ -1,9 +1,7 @@
 import { describe, it, before, after } from "mocha";
 import { expect } from "chai";
 import supertest from "supertest";
-import mongoose from "mongoose";
 import app from "../../src/app.js";
-import { connectDB } from "../../src/config/db.js";
 import userModel from "../../src/models/user.model.js";
 
 const requester = supertest(app);
@@ -15,13 +13,11 @@ const cleanTestData = async () => {
 
 describe("Sessions router", () => {
   before(async () => {
-    await connectDB();
     await cleanTestData();
   });
 
   after(async () => {
     await cleanTestData();
-    await mongoose.connection.close();
   });
 
   it("POST /api/sessions/register returns 400 for concurrent duplicated email", async () => {

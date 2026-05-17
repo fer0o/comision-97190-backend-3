@@ -3,7 +3,6 @@ import { expect } from "chai";
 import supertest from "supertest";
 import mongoose from "mongoose";
 import app from "../../src/app.js";
-import { connectDB } from "../../src/config/db.js";
 import userModel from "../../src/models/user.model.js";
 import petModel from "../../src/models/pet.model.js";
 import adoptionModel from "../../src/models/adoption.model.js";
@@ -33,8 +32,6 @@ const cleanTestData = async () => {
 
 describe("Adoptions router", () => {
   before(async () => {
-    await connectDB();
-
     await cleanTestData();
 
     testUser = await userModel.create({
@@ -53,7 +50,6 @@ describe("Adoptions router", () => {
 
   after(async () => {
     await cleanTestData();
-    await mongoose.connection.close();
   });
 
   // Get all adoptions
